@@ -12,6 +12,7 @@ var NES = function(opts) {
     onBatteryRamWrite: function() {},
     onFrameBegin: null,
     onFrameEnd: null,
+    frameCaller: null,
 
     // FIXME: not actually used except for in PAPU
     preferredFrameRate: 60,
@@ -75,8 +76,8 @@ NES.prototype = {
   },
 
   frame: function() {
-    if(this.opts.onFrameBegin) {
-      this.opts.onFrameBegin();
+    if(this.opts.frameCaller && this.opts.onFrameBegin) {
+      this.opts.onFrameBegin.call(this.opts.frameCaller);
     }
     this.ppu.startFrame();
     var cycles = 0;
@@ -134,8 +135,8 @@ NES.prototype = {
         }
       }
     }
-    if(this.opts.onFrameEnd) {
-      this.opts.onFrameEnd();
+    if(this.opts.frameCaller && this.opts.onFrameEnd) {
+      this.opts.onFrameEnd.call(this.opts.frameCaller);
     }
     this.frameCount ++;
     this.fpsFrameCount++;
