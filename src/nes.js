@@ -6,6 +6,7 @@ var ROM = require("./rom");
 
 var NES = function(opts) {
   this.opts = {
+    // test
     onFrame: function() {},
     onAudioSample: null,
     onStatusUpdate: function() {},
