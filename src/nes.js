@@ -55,6 +55,7 @@ var NES = function(opts) {
 
 NES.prototype = {
   fpsFrameCount: 0,
+  frameCount: 0,
   romData: null,
 
   // Resets the system
@@ -69,6 +70,8 @@ NES.prototype = {
 
     this.lastFpsTime = null;
     this.fpsFrameCount = 0;
+    this.frameCount = 0;
+
   },
 
   frame: function() {
@@ -134,6 +137,7 @@ NES.prototype = {
     if(this.opts.onFrameEnd) {
       this.opts.onFrameEnd();
     }
+    this.frameCount ++;
     this.fpsFrameCount++;
   },
 
