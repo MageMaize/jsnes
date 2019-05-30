@@ -6,11 +6,12 @@ var ROM = require("./rom");
 
 var NES = function(opts) {
   this.opts = {
-    // test
     onFrame: function() {},
     onAudioSample: null,
     onStatusUpdate: function() {},
     onBatteryRamWrite: function() {},
+    onFrameBegin: null,
+    onFrameEnd: null,
 
     // FIXME: not actually used except for in PAPU
     preferredFrameRate: 60,
@@ -71,6 +72,9 @@ NES.prototype = {
   },
 
   frame: function() {
+    if(this.opts.onFrameBegin) {
+      this.opts.onFrameBegin();
+    }
     this.ppu.startFrame();
     var cycles = 0;
     var emulateSound = this.opts.emulateSound;
@@ -126,6 +130,9 @@ NES.prototype = {
           ppu.endScanline();
         }
       }
+    }
+    if(this.opts.onFrameEnd) {
+      this.opts.onFrameEnd();
     }
     this.fpsFrameCount++;
   },
